@@ -10,7 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_13_104514) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_13_114615) do
+  create_table "accounts", force: :cascade do |t|
+    t.integer "account_number"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "supplier_id"
+    t.index ["supplier_id"], name: "index_accounts_on_supplier_id"
+  end
+
   create_table "articles", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -47,6 +55,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_13_104514) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "suppliers", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "email"
@@ -55,6 +69,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_13_104514) do
     t.string "locality"
   end
 
+  add_foreign_key "accounts", "suppliers"
   add_foreign_key "articles", "users"
   add_foreign_key "books", "authors"
 end
