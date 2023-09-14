@@ -10,7 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_14_062503) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_14_082512) do
+  create_table "account_histories", force: :cascade do |t|
+    t.integer "credit_rating"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "accounts", force: :cascade do |t|
     t.integer "account_number"
     t.datetime "created_at", null: false
