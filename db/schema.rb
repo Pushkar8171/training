@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_14_082512) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_14_105216) do
   create_table "account_histories", force: :cascade do |t|
     t.integer "credit_rating"
     t.datetime "created_at", null: false
@@ -43,6 +43,21 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_14_082512) do
     t.index ["user_id"], name: "index_articles_on_user_id"
   end
 
+  create_table "assemblies", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "parts_id"
+    t.index ["parts_id"], name: "index_assemblies_on_parts_id"
+  end
+
+  create_table "assemblies_parts", id: false, force: :cascade do |t|
+    t.integer "assembly_id"
+    t.integer "part_id"
+    t.index ["assembly_id"], name: "index_assemblies_parts_on_assembly_id"
+    t.index ["part_id"], name: "index_assemblies_parts_on_part_id"
+  end
+
   create_table "authors", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -69,6 +84,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_14_082512) do
     t.string "email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "parts", force: :cascade do |t|
+    t.string "number"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "assemblies_id"
+    t.index ["assemblies_id"], name: "index_parts_on_assemblies_id"
   end
 
   create_table "patients", force: :cascade do |t|
@@ -101,5 +124,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_14_082512) do
   add_foreign_key "appointments", "patients"
   add_foreign_key "appointments", "physicians"
   add_foreign_key "articles", "users"
+  add_foreign_key "assemblies", "parts", column: "parts_id"
   add_foreign_key "books", "authors"
+  add_foreign_key "parts", "assemblies", column: "assemblies_id"
 end
